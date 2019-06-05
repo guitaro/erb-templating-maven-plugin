@@ -7,7 +7,7 @@ def render(template, contexts)
     contexts.each do |file|
       yml_file = YAML.load_file(file)
       yml_file.each_key { |key|
-        var_value = yml_file[key].to_s
+        var_value = yml_file[key]
         var_name = "@#{key}"  # the '@' is required
         self.instance_variable_set(var_name, var_value)
       }

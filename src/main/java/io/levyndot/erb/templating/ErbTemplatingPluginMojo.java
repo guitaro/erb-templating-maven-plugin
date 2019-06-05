@@ -59,34 +59,39 @@ public class ErbTemplatingPluginMojo extends AbstractMojo {
 
         FilesUtils.getInstance().setProjectBaseDir(project.getBasedir().getAbsolutePath());
 
-        // Check template files existances
+        // Check files existances
         try {
             // templates
-            FilesUtils.getInstance().checkFileExist(templates);
-            // Contextes
-            FilesUtils.getInstance().checkFileExist(contexts);
+            templates = FilesUtils.getInstance().checkFileExist(templates, FilesUtils.ERB_FILE_EXT);
+            // Contexts
+            contexts = FilesUtils.getInstance().checkFileExist(contexts, FilesUtils.YAML_FILE_EXT);
         } catch (final FileCheckPluginException e) {
             throw new MojoExecutionException(e.getMessage());
         }
 
         // render each templates and write them into targetDir
         for (final String templateFile : templates) {
-            String result;
-            try {
-                result = JRubyUtils.getInstance().render(FilesUtils.getInstance().getAbsolutePath(templateFile), contexts);
-            } catch (final RubyPluginException | FileCheckPluginException e) {
-                throw new MojoExecutionException(e.getMessage());
-            }
+            processTemplate(templateFile);
+        }
+    }
 
-            // Compute output file name
-            String outfile = FilesUtils.getInstance().getTargetFilename(targetDir, templateFile, removeExtension);
+    private void processTemplate(final String file) throws MojoExecutionException {
+        String result;
+        try {
+            getLog().info(String.format("Processing => %s", file));
+            result = JRubyUtils.getInstance().render(FilesUtils.getInstance().getAbsolutePath(file), contexts);
+        } catch (final RubyPluginException | FileCheckPluginException e) {
+            throw new MojoExecutionException(e.getMessage());
+        }
 
-            // Write file
-            try {
-                FilesUtils.getInstance().write(outfile, result);
-            } catch (final FilePluginException e) {
-                throw new MojoExecutionException(e.getMessage());
-            }
+        // Compute output file name
+        String outfile = FilesUtils.getInstance().getTargetFilename(targetDir, file, removeExtension);
+
+        // Write file
+        try {
+            FilesUtils.getInstance().write(outfile, result);
+        } catch (final FilePluginException e) {
+            throw new MojoExecutionException(e.getMessage());
         }
     }
 }

@@ -29,7 +29,7 @@ public final class JRubyUtils {
             "    contexts.each do |file|\n" +
             "      yml_file = YAML.load_file(file)\n" +
             "      yml_file.each_key { |key|\n" +
-            "        var_value = yml_file[key].to_s\n" +
+            "        var_value = yml_file[key]\n" +
             "        var_name = \"@#{key}\"  # the '@' is required\n" +
             "        self.instance_variable_set(var_name, var_value)\n" +
             "      }\n" +

@@ -13,8 +13,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * The type Files utils.
@@ -23,8 +27,15 @@ import java.util.Objects;
  */
 public final class FilesUtils {
 
+    /**
+     * The constant ERB_FILE_EXT.
+     */
+    public static final String ERB_FILE_EXT = ".erb";
+    /**
+     * The constant YAML_FILE_EXT.
+     */
+    public static final String YAML_FILE_EXT = ".yaml";
     private static FilesUtils instance;
-    private static final String ERB_FILE_EXT = ".erb";
     private String projectBaseDir = "";
 
     private FilesUtils() {}
@@ -53,17 +64,38 @@ public final class FilesUtils {
     /**
      * Check file existance.
      *
-     * @param files the files
+     * @param files  the files
+     * @param filter the filter
+     * @return the list
      * @throws FileCheckPluginException the file not found plugin exception
      */
-    public void checkFileExist(final List<String> files) throws FileCheckPluginException {
+    public List<String> checkFileExist(final List<String> files, final String filter) throws FileCheckPluginException {
+        List<String> verifiedFiles = new ArrayList<>();
         if (Objects.nonNull(files)) {
-            for(final String path : files) {
-                if(!FileUtils.fileExists(path)) {
-                    throw new FileCheckPluginException(String.format("File [%s] does not exist", path));
+            for(String path : files) {
+                path = cleanPath(path);
+                if(!isDirectory(path)) {
+                    if (!FileUtils.fileExists(path)) {
+                        throw new FileCheckPluginException(String.format("File [%s] does not exist", path));
+                    } else if (path.endsWith(filter)){
+                        verifiedFiles.add(path);
+                    }
+                } else {
+                    List<String> filesRecursively = getFilesRecursively(path, filter);
+                    verifiedFiles.addAll(filesRecursively);
                 }
             }
         }
+        return verifiedFiles;
+    }
+
+    private String cleanPath(String path) {
+        if (path.endsWith("*")) {
+            while(path.endsWith("*") || path.endsWith("/") || path.endsWith("\\")) {
+                path = path.substring(0, path.length()-1);
+            }
+        }
+        return path;
     }
 
     /**
@@ -156,11 +188,50 @@ public final class FilesUtils {
         }
     }
 
+    /**
+     * Gets target filename.
+     *
+     * @param targetDir       the target dir
+     * @param templateFile    the template file
+     * @param removeExtension the remove extension
+     * @return the target filename
+     */
     public String getTargetFilename(final String targetDir, final String templateFile, final boolean removeExtension) {
         String out = targetDir + templateFile.replace(projectBaseDir, "");
         if (removeExtension && out.endsWith(ERB_FILE_EXT)) {
             out = out.substring(0, out.length() - ERB_FILE_EXT.length());
         }
         return out;
+    }
+
+    /**
+     * Is directory boolean.
+     *
+     * @param templateFile the template file
+     * @return the boolean
+     */
+    public boolean isDirectory(final String templateFile) {
+        return Files.isDirectory(Paths.get(cleanPath(templateFile)));
+    }
+
+    /**
+     * Gets files recursively.
+     *
+     * @param folder the folder
+     * @param filter the filter
+     * @return the files recursively
+     * @throws FileCheckPluginException the file check plugin exception
+     */
+    public List<String> getFilesRecursively(final String folder, final String filter) throws FileCheckPluginException {
+        try {
+            return Files.walk(Paths.get(cleanPath(folder)))
+                    .filter(Files::isRegularFile)
+                    .map(path -> path.toAbsolutePath().toString())
+                    .filter(path -> path.endsWith(filter))
+                    .collect(Collectors.toList());
+        } catch (final IOException e) {
+            throw new FileCheckPluginException(e.getMessage());
+        }
+
     }
 }
