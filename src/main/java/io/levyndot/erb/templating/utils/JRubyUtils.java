@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author NAGY Levente - 05/06/2019.
  */
-public class JRubyUtils {
+public final class JRubyUtils {
 
     private static ScriptEngine jruby;
     private static final String FUNC_NAME = "render";
@@ -56,7 +56,7 @@ public class JRubyUtils {
      * @return the instance
      */
     public static JRubyUtils getInstance() {
-        if(Objects.isNull(instance)) {
+        if (Objects.isNull(instance)) {
             instance = new JRubyUtils();
         }
         return instance;
@@ -71,7 +71,7 @@ public class JRubyUtils {
      */
     public String render(final String templateFilePath, final List<String> contextFiles) throws RubyPluginException {
         try {
-            return ((Invocable) jruby).invokeFunction(FUNC_NAME, FilesUtils.getInputStream(templateFilePath), contextFiles).toString();
+            return ((Invocable) jruby).invokeFunction(FUNC_NAME, FilesUtils.getInstance().getInputStream(templateFilePath), contextFiles).toString();
         } catch (ScriptException | NoSuchMethodException | FilePluginException e) {
             throw new RubyPluginException(e.getMessage());
         }

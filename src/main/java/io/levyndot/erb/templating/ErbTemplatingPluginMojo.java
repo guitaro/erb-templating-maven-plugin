@@ -27,8 +27,8 @@ public class ErbTemplatingPluginMojo extends AbstractMojo {
     @Parameter(name = "contexts", required = true)
     private List<String> contexts;
 
-    @Parameter(property = "project.build.directory", name = "destDir", required = false, defaultValue = "${project.build.directory}")
-    private String destDir;
+    @Parameter(property = "project.build.directory", name = "targetDir", required = false, defaultValue = "${project.build.directory}")
+    private String targetDir;
 
     @Parameter(name = "removeExtension", required = false, defaultValue = "false")
     private boolean removeExtension;
@@ -53,38 +53,37 @@ public class ErbTemplatingPluginMojo extends AbstractMojo {
         if(Objects.isNull(contexts)) {
             contexts = new ArrayList<>();
         }
-        if(Objects.isNull(destDir) || destDir.isEmpty()) {
-            destDir = project.getBuild().getOutputDirectory();
+        if(Objects.isNull(targetDir) || targetDir.isEmpty()) {
+            targetDir = project.getBuild().getOutputDirectory();
         }
+
+        FilesUtils.getInstance().setProjectBaseDir(project.getBasedir().getAbsolutePath());
 
         // Check template files existances
         try {
             // templates
-            FilesUtils.checkFileExist(templates);
+            FilesUtils.getInstance().checkFileExist(templates);
             // Contextes
-            FilesUtils.checkFileExist(contexts);
+            FilesUtils.getInstance().checkFileExist(contexts);
         } catch (final FileCheckPluginException e) {
             throw new MojoExecutionException(e.getMessage());
         }
 
-        // render each templates and write them into destDir
+        // render each templates and write them into targetDir
         for (final String templateFile : templates) {
             String result;
             try {
-                result = JRubyUtils.getInstance().render(FilesUtils.getAbsolutePath(templateFile), contexts);
+                result = JRubyUtils.getInstance().render(FilesUtils.getInstance().getAbsolutePath(templateFile), contexts);
             } catch (final RubyPluginException | FileCheckPluginException e) {
                 throw new MojoExecutionException(e.getMessage());
             }
 
             // Compute output file name
-            String outfile = destDir + templateFile.replace(project.getBasedir().getAbsolutePath(), "");
-            if (removeExtension && outfile.endsWith(".erb")) {
-                outfile = outfile.substring(0, outfile.length() - ".erb".length());
-            }
+            String outfile = FilesUtils.getInstance().getTargetFilename(targetDir, templateFile, removeExtension);
 
             // Write file
             try {
-                FilesUtils.write(outfile, result);
+                FilesUtils.getInstance().write(outfile, result);
             } catch (final FilePluginException e) {
                 throw new MojoExecutionException(e.getMessage());
             }

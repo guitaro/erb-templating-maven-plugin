@@ -21,7 +21,34 @@ import java.util.Objects;
  *
  * @author NAGY Levente - 04/06/2019.
  */
-public class FilesUtils {
+public final class FilesUtils {
+
+    private static FilesUtils instance;
+    private static final String ERB_FILE_EXT = ".erb";
+    private String projectBaseDir = "";
+
+    private FilesUtils() {}
+
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public static FilesUtils getInstance() {
+        if(Objects.isNull(instance)) {
+            instance = new FilesUtils();
+        }
+        return instance;
+    }
+
+    /**
+     * Sets project base dir.
+     *
+     * @param projectBaseDir the project base dir
+     */
+    public void setProjectBaseDir(final String projectBaseDir) {
+        this.projectBaseDir = projectBaseDir;
+    }
 
     /**
      * Check file existance.
@@ -29,7 +56,7 @@ public class FilesUtils {
      * @param files the files
      * @throws FileCheckPluginException the file not found plugin exception
      */
-    public static final void checkFileExist(final List<String> files) throws FileCheckPluginException {
+    public void checkFileExist(final List<String> files) throws FileCheckPluginException {
         if (Objects.nonNull(files)) {
             for(final String path : files) {
                 if(!FileUtils.fileExists(path)) {
@@ -43,10 +70,9 @@ public class FilesUtils {
      * Create directory if not exists.
      *
      * @param path the files
-     * @return the file
      * @throws FileCheckPluginException the file check plugin exception
      */
-    public static final File createDirectoryIfNotExists(final String path) throws FileCheckPluginException {
+    public void createDirectoryIfNotExists(final String path) throws FileCheckPluginException {
         File dir = new File(path);
         if(!FileUtils.fileExists(path)) {
             try {
@@ -55,7 +81,6 @@ public class FilesUtils {
                 throw new FileCheckPluginException(String.format("Cannot create directory [%s]", path));
             }
         }
-        return dir;
     }
 
     /**
@@ -65,35 +90,11 @@ public class FilesUtils {
      * @return the input stream
      * @throws FilePluginException the file plugin exception
      */
-    public static InputStream getInputStream(final String path) throws FilePluginException {
+    public InputStream getInputStream(final String path) throws FilePluginException {
         try {
             return new FileInputStream(path);
         } catch (final FileNotFoundException e) {
             throw new ReadFilePluginException(e);
-        }
-    }
-
-    /**
-     * Gets output stream.
-     *
-     * @param path the path
-     * @return the output stream
-     * @throws FilePluginException the file plugin exception
-     */
-    private static OutputStream getOutputStream(final String path) throws FilePluginException {
-        if (path == null || path.isEmpty()) {
-            return System.out;
-        }
-
-        File outputFile = new File(path);
-        if (Objects.nonNull(outputFile.getParentFile()) && !outputFile.getParentFile().exists()) {
-            createDirectoryIfNotExists(outputFile.getParentFile().getPath());
-        }
-
-        try {
-            return new FileOutputStream(outputFile);
-        } catch (final FileNotFoundException e) {
-            throw new WriteFilePluginException(e);
         }
     }
 
@@ -104,7 +105,7 @@ public class FilesUtils {
      * @param content  the content
      * @throws FilePluginException the file plugin exception
      */
-    public static void write(final String filename, final String content) throws FilePluginException {
+    public void write(final String filename, final String content) throws FilePluginException {
         OutputStream outputStream = getOutputStream(filename);
         try {
             outputStream.write(content.getBytes());
@@ -122,12 +123,44 @@ public class FilesUtils {
      * @return the absolute path
      * @throws FileCheckPluginException the file check plugin exception
      */
-    public static String getAbsolutePath(final String relativePath) throws FileCheckPluginException {
+    public String getAbsolutePath(final String relativePath) throws FileCheckPluginException {
         File file = new File(relativePath);
         if (file.exists()) {
             return file.getAbsolutePath();
         } else {
             throw new FileCheckPluginException(String.format("File [%s] does not exists.", relativePath));
         }
+    }
+
+    /**
+     * Gets output stream.
+     *
+     * @param path the path
+     * @return the output stream
+     * @throws FilePluginException the file plugin exception
+     */
+    private OutputStream getOutputStream(final String path) throws FilePluginException {
+        if (path == null || path.isEmpty()) {
+            return System.out;
+        }
+
+        File outputFile = new File(path);
+        if (Objects.nonNull(outputFile.getParentFile()) && !outputFile.getParentFile().exists()) {
+            createDirectoryIfNotExists(outputFile.getParentFile().getPath());
+        }
+
+        try {
+            return new FileOutputStream(outputFile);
+        } catch (final FileNotFoundException e) {
+            throw new WriteFilePluginException(e);
+        }
+    }
+
+    public String getTargetFilename(final String targetDir, final String templateFile, final boolean removeExtension) {
+        String out = targetDir + templateFile.replace(projectBaseDir, "");
+        if (removeExtension && out.endsWith(ERB_FILE_EXT)) {
+            out = out.substring(0, out.length() - ERB_FILE_EXT.length());
+        }
+        return out;
     }
 }
