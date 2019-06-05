@@ -14,5 +14,5 @@ def render(template, contexts)
     end
     binding
   end
-  ERB.new(template).result(context)
+  ERB.new(template.to_io.read).result(context)
 end

@@ -21,22 +21,22 @@ import java.util.Objects;
 @Mojo(name = "run", requiresProject = true)
 public class ErbTemplatingPluginMojo extends AbstractMojo {
 
-    @Parameter(property = "templates", name = "templates", required = true)
+    @Parameter(name = "templates", required = true)
     private List<String> templates;
 
-    @Parameter(property = "contexts", name = "contexts", required = true)
+    @Parameter(name = "contexts", required = true)
     private List<String> contexts;
 
-    @Parameter(property = "destDir", name = "destDir", required = true, defaultValue = "${project.build.directory}")
+    @Parameter(property = "project.build.directory", name = "destDir", required = false, defaultValue = "${project.build.directory}")
     private String destDir;
 
-    @Parameter(property = "removeExtension", name = "removeExt", required = false, defaultValue = "false")
+    @Parameter(name = "removeExtension", required = false, defaultValue = "false")
     private boolean removeExtension;
 
-    @Parameter(property = "skip", name = "skip", required = false, defaultValue = "false")
+    @Parameter(name = "skip", required = false, defaultValue = "false")
     private boolean skip;
 
-    @Parameter(property = "project", readonly = true, required = true, defaultValue = "${project}")
+    @Parameter(property = "project", readonly = true, defaultValue = "${project}")
     private MavenProject project;
 
     @Override
@@ -71,14 +71,20 @@ public class ErbTemplatingPluginMojo extends AbstractMojo {
         for (final String templateFile : templates) {
             String result;
             try {
-                result = JRubyUtils.getInstance().render(templateFile, contexts);
-            } catch (final RubyPluginException e) {
+                result = JRubyUtils.getInstance().render(FilesUtils.getAbsolutePath(templateFile), contexts);
+            } catch (final RubyPluginException | FileCheckPluginException e) {
                 throw new MojoExecutionException(e.getMessage());
             }
 
-            // TODO Write file
+            // Compute output file name
+            String outfile = destDir + templateFile.replace(project.getBasedir().getAbsolutePath(), "");
+            if (removeExtension && outfile.endsWith(".erb")) {
+                outfile = outfile.substring(0, outfile.length() - ".erb".length());
+            }
+
+            // Write file
             try {
-                FilesUtils.write("filename", result);
+                FilesUtils.write(outfile, result);
             } catch (final FilePluginException e) {
                 throw new MojoExecutionException(e.getMessage());
             }

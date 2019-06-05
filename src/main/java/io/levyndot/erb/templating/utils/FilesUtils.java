@@ -32,7 +32,7 @@ public class FilesUtils {
     public static final void checkFileExist(final List<String> files) throws FileCheckPluginException {
         if (Objects.nonNull(files)) {
             for(final String path : files) {
-                if(FileUtils.fileExists(path)) {
+                if(!FileUtils.fileExists(path)) {
                     throw new FileCheckPluginException(String.format("File [%s] does not exist", path));
                 }
             }
@@ -86,7 +86,7 @@ public class FilesUtils {
         }
 
         File outputFile = new File(path);
-        if (!outputFile.getParentFile().exists()) {
+        if (Objects.nonNull(outputFile.getParentFile()) && !outputFile.getParentFile().exists()) {
             createDirectoryIfNotExists(outputFile.getParentFile().getPath());
         }
 
@@ -112,6 +112,22 @@ public class FilesUtils {
             outputStream.close();
         } catch (final IOException e) {
             throw new WriteFilePluginException(e);
+        }
+    }
+
+    /**
+     * Gets absolute path.
+     *
+     * @param relativePath the relative path
+     * @return the absolute path
+     * @throws FileCheckPluginException the file check plugin exception
+     */
+    public static String getAbsolutePath(final String relativePath) throws FileCheckPluginException {
+        File file = new File(relativePath);
+        if (file.exists()) {
+            return file.getAbsolutePath();
+        } else {
+            throw new FileCheckPluginException(String.format("File [%s] does not exists.", relativePath));
         }
     }
 }

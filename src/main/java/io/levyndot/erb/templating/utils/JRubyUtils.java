@@ -36,7 +36,7 @@ public class JRubyUtils {
             "    end\n" +
             "    binding\n" +
             "  end\n" +
-            "  ERB.new(template).result(context)\n" +
+            "  ERB.new(template.to_io.read).result(context)\n" +
             "end\n";
 
     private static JRubyUtils instance;
