@@ -1,13 +1,18 @@
 require 'erb'
 require 'ostruct'
-require 'java'
+require 'yaml'
 
-def render(template, variables)
-  context = OpenStruct.new(variables).instance_eval do
-    variables.each do |k, v|
-      instance_variable_set(k, v) if k[0] == '@'
+def render(template, contexts)
+  context = OpenStruct.new.instance_eval do
+    contexts.each do |file|
+      yml_file = YAML.load_file(file)
+      yml_file.each_key { |key|
+        var_value = yml_file[key].to_s
+        var_name = "@#{key}"  # the '@' is required
+        self.instance_variable_set(var_name, var_value)
+      }
     end
     binding
   end
-  ERB.new(template.to_io.read).result(context);
+  ERB.new(template).result(context)
 end
