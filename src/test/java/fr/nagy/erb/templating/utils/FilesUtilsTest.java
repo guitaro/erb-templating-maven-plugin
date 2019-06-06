@@ -1,9 +1,9 @@
-package io.levyndot.erb.templating.utils;
+package fr.nagy.erb.templating.utils;
 
-import io.levyndot.erb.templating.TestHelper;
-import io.levyndot.erb.templating.exception.FileCheckPluginException;
-import io.levyndot.erb.templating.exception.FilePluginException;
-import io.levyndot.erb.templating.exception.ReadFilePluginException;
+import fr.nagy.erb.templating.TestHelper;
+import fr.nagy.erb.templating.exception.FileCheckPluginException;
+import fr.nagy.erb.templating.exception.FilePluginException;
+import fr.nagy.erb.templating.exception.ReadFilePluginException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

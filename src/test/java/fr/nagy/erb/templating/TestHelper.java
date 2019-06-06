@@ -1,4 +1,4 @@
-package io.levyndot.erb.templating;
+package fr.nagy.erb.templating;
 
 import java.io.BufferedReader;
 import java.io.File;

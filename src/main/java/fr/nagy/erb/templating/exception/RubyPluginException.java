@@ -1,4 +1,4 @@
-package io.levyndot.erb.templating.exception;
+package fr.nagy.erb.templating.exception;
 
 /**
  * The type Ruby plugin exception.

@@ -1,10 +1,10 @@
-package io.levyndot.erb.templating;
+package fr.nagy.erb.templating;
 
-import io.levyndot.erb.templating.exception.FileCheckPluginException;
-import io.levyndot.erb.templating.exception.FilePluginException;
-import io.levyndot.erb.templating.exception.RubyPluginException;
-import io.levyndot.erb.templating.utils.FilesUtils;
-import io.levyndot.erb.templating.utils.JRubyUtils;
+import fr.nagy.erb.templating.utils.FilesUtils;
+import fr.nagy.erb.templating.exception.FileCheckPluginException;
+import fr.nagy.erb.templating.exception.FilePluginException;
+import fr.nagy.erb.templating.exception.RubyPluginException;
+import fr.nagy.erb.templating.utils.JRubyUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;

@@ -1,9 +1,9 @@
-package io.levyndot.erb.templating.utils;
+package fr.nagy.erb.templating.utils;
 
-import io.levyndot.erb.templating.exception.FileCheckPluginException;
-import io.levyndot.erb.templating.exception.FilePluginException;
-import io.levyndot.erb.templating.exception.ReadFilePluginException;
-import io.levyndot.erb.templating.exception.WriteFilePluginException;
+import fr.nagy.erb.templating.exception.FileCheckPluginException;
+import fr.nagy.erb.templating.exception.FilePluginException;
+import fr.nagy.erb.templating.exception.ReadFilePluginException;
+import fr.nagy.erb.templating.exception.WriteFilePluginException;
 import org.apache.maven.shared.utils.io.FileUtils;
 
 import java.io.File;

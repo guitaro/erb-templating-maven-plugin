@@ -1,7 +1,7 @@
-package io.levyndot.erb.templating.utils;
+package fr.nagy.erb.templating.utils;
 
-import io.levyndot.erb.templating.exception.FilePluginException;
-import io.levyndot.erb.templating.exception.RubyPluginException;
+import fr.nagy.erb.templating.exception.FilePluginException;
+import fr.nagy.erb.templating.exception.RubyPluginException;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;

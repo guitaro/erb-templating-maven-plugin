@@ -1,4 +1,4 @@
-package io.levyndot.erb.templating;
+package fr.nagy.erb.templating;
 
 
 import org.apache.maven.model.Build;
