@@ -45,7 +45,7 @@ public final class FilesUtils {
      *
      * @return the instance
      */
-    public static FilesUtils getInstance() {
+    public static synchronized FilesUtils getInstance() {
         if(Objects.isNull(instance)) {
             instance = new FilesUtils();
         }
@@ -58,7 +58,7 @@ public final class FilesUtils {
      * @param projectBaseDir the project base dir
      */
     public void setProjectBaseDir(final String projectBaseDir) {
-        this.projectBaseDir = projectBaseDir;
+        this.projectBaseDir = cleanPath(projectBaseDir);
     }
 
     /**
@@ -90,8 +90,8 @@ public final class FilesUtils {
     }
 
     private String cleanPath(String path) {
-        if (path.endsWith("*")) {
-            while(path.endsWith("*") || path.endsWith("/") || path.endsWith("\\")) {
+        if (path.endsWith("*") || path.endsWith("/") || path.endsWith("\\") || path.endsWith(".")) {
+            while(path.endsWith("*") || path.endsWith("/") || path.endsWith("\\") || path.endsWith(".")) {
                 path = path.substring(0, path.length()-1);
             }
         }
@@ -109,7 +109,7 @@ public final class FilesUtils {
         if(!FileUtils.fileExists(path)) {
             try {
                 FileUtils.forceMkdir(dir);
-            } catch (final IOException e) {
+            } catch (final IOException | IllegalArgumentException e) {
                 throw new FileCheckPluginException(String.format("Cannot create directory [%s]", path));
             }
         }

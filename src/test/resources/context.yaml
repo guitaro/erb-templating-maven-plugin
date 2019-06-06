@@ -1,0 +1,5 @@
+yaml_var : "Hello, world !"
+array_var:
+  - value1
+  - value2
+  - value3

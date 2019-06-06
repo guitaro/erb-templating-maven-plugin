@@ -55,7 +55,7 @@ public final class JRubyUtils {
      *
      * @return the instance
      */
-    public static JRubyUtils getInstance() {
+    public static synchronized JRubyUtils getInstance() {
         if (Objects.isNull(instance)) {
             instance = new JRubyUtils();
         }
