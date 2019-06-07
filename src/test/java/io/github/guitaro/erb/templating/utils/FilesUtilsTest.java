@@ -1,9 +1,9 @@
-package fr.nagy.erb.templating.utils;
+package io.github.guitaro.erb.templating.utils;
 
-import fr.nagy.erb.templating.TestHelper;
-import fr.nagy.erb.templating.exception.FileCheckPluginException;
-import fr.nagy.erb.templating.exception.FilePluginException;
-import fr.nagy.erb.templating.exception.ReadFilePluginException;
+import io.github.guitaro.erb.templating.TestHelper;
+import io.github.guitaro.erb.templating.exception.FileCheckPluginException;
+import io.github.guitaro.erb.templating.exception.FilePluginException;
+import io.github.guitaro.erb.templating.exception.ReadFilePluginException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

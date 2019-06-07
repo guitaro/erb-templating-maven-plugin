@@ -1,4 +1,4 @@
-package fr.nagy.erb.templating;
+package io.github.guitaro.erb.templating;
 
 import java.io.BufferedReader;
 import java.io.File;

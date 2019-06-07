@@ -1,7 +1,7 @@
-package fr.nagy.erb.templating.utils;
+package io.github.guitaro.erb.templating.utils;
 
-import fr.nagy.erb.templating.exception.FilePluginException;
-import fr.nagy.erb.templating.exception.RubyPluginException;
+import io.github.guitaro.erb.templating.exception.FilePluginException;
+import io.github.guitaro.erb.templating.exception.RubyPluginException;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;

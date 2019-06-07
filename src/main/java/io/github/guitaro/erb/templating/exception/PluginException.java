@@ -1,4 +1,4 @@
-package fr.nagy.erb.templating.exception;
+package io.github.guitaro.erb.templating.exception;
 
 /**
  * The type Plugin exception.

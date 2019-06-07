@@ -1,10 +1,10 @@
-package fr.nagy.erb.templating;
+package io.github.guitaro.erb.templating;
 
-import fr.nagy.erb.templating.utils.FilesUtils;
-import fr.nagy.erb.templating.exception.FileCheckPluginException;
-import fr.nagy.erb.templating.exception.FilePluginException;
-import fr.nagy.erb.templating.exception.RubyPluginException;
-import fr.nagy.erb.templating.utils.JRubyUtils;
+import io.github.guitaro.erb.templating.utils.FilesUtils;
+import io.github.guitaro.erb.templating.exception.FileCheckPluginException;
+import io.github.guitaro.erb.templating.exception.FilePluginException;
+import io.github.guitaro.erb.templating.exception.RubyPluginException;
+import io.github.guitaro.erb.templating.utils.JRubyUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;

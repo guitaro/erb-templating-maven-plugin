@@ -1,9 +1,9 @@
-package fr.nagy.erb.templating.utils;
+package io.github.guitaro.erb.templating.utils;
 
-import fr.nagy.erb.templating.exception.FileCheckPluginException;
-import fr.nagy.erb.templating.exception.FilePluginException;
-import fr.nagy.erb.templating.exception.ReadFilePluginException;
-import fr.nagy.erb.templating.exception.WriteFilePluginException;
+import io.github.guitaro.erb.templating.exception.FileCheckPluginException;
+import io.github.guitaro.erb.templating.exception.FilePluginException;
+import io.github.guitaro.erb.templating.exception.ReadFilePluginException;
+import io.github.guitaro.erb.templating.exception.WriteFilePluginException;
 import org.apache.maven.shared.utils.io.FileUtils;
 
 import java.io.File;

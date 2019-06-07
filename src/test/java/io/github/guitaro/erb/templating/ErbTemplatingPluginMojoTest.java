@@ -1,4 +1,4 @@
-package fr.nagy.erb.templating;
+package io.github.guitaro.erb.templating;
 
 
 import org.apache.maven.model.Build;
