@@ -1,7 +1,7 @@
-package io.levyndot.erb.templating.utils;
+package io.github.guitaro.erb.templating.utils;
 
-import io.levyndot.erb.templating.exception.FilePluginException;
-import io.levyndot.erb.templating.exception.RubyPluginException;
+import io.github.guitaro.erb.templating.exception.FilePluginException;
+import io.github.guitaro.erb.templating.exception.RubyPluginException;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;

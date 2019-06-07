@@ -1,10 +1,10 @@
-package io.levyndot.erb.templating;
+package io.github.guitaro.erb.templating;
 
-import io.levyndot.erb.templating.exception.FileCheckPluginException;
-import io.levyndot.erb.templating.exception.FilePluginException;
-import io.levyndot.erb.templating.exception.RubyPluginException;
-import io.levyndot.erb.templating.utils.FilesUtils;
-import io.levyndot.erb.templating.utils.JRubyUtils;
+import io.github.guitaro.erb.templating.utils.FilesUtils;
+import io.github.guitaro.erb.templating.exception.FileCheckPluginException;
+import io.github.guitaro.erb.templating.exception.FilePluginException;
+import io.github.guitaro.erb.templating.exception.RubyPluginException;
+import io.github.guitaro.erb.templating.utils.JRubyUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;

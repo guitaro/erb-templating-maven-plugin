@@ -1,9 +1,9 @@
-package io.levyndot.erb.templating.utils;
+package io.github.guitaro.erb.templating.utils;
 
-import io.levyndot.erb.templating.exception.FileCheckPluginException;
-import io.levyndot.erb.templating.exception.FilePluginException;
-import io.levyndot.erb.templating.exception.ReadFilePluginException;
-import io.levyndot.erb.templating.exception.WriteFilePluginException;
+import io.github.guitaro.erb.templating.exception.FileCheckPluginException;
+import io.github.guitaro.erb.templating.exception.FilePluginException;
+import io.github.guitaro.erb.templating.exception.ReadFilePluginException;
+import io.github.guitaro.erb.templating.exception.WriteFilePluginException;
 import org.apache.maven.shared.utils.io.FileUtils;
 
 import java.io.File;

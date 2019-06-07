@@ -1,9 +1,9 @@
-package io.levyndot.erb.templating.utils;
+package io.github.guitaro.erb.templating.utils;
 
-import io.levyndot.erb.templating.TestHelper;
-import io.levyndot.erb.templating.exception.FileCheckPluginException;
-import io.levyndot.erb.templating.exception.FilePluginException;
-import io.levyndot.erb.templating.exception.ReadFilePluginException;
+import io.github.guitaro.erb.templating.TestHelper;
+import io.github.guitaro.erb.templating.exception.FileCheckPluginException;
+import io.github.guitaro.erb.templating.exception.FilePluginException;
+import io.github.guitaro.erb.templating.exception.ReadFilePluginException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

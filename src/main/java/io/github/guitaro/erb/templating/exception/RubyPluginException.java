@@ -1,4 +1,4 @@
-package io.levyndot.erb.templating.exception;
+package io.github.guitaro.erb.templating.exception;
 
 /**
  * The type Ruby plugin exception.
