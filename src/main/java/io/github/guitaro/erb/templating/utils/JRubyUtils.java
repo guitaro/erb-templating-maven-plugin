@@ -68,6 +68,7 @@ public final class JRubyUtils {
      * @param templateFilePath the template file path
      * @param contextFiles     the context files
      * @return the string
+     * @throws RubyPluginException the ruby plugin exception
      */
     public String render(final String templateFilePath, final List<String> contextFiles) throws RubyPluginException {
         try {
