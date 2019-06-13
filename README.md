@@ -1,10 +1,6 @@
 # erb-templating-maven-plugin
 Maven plugin which parse ERB file templates with YAML variables contexts.
 
-## Presentation
-Recognized Tags¶ ↑
-ERB recognizes certain tags in the provided template and converts them based on the rules below:
-
 ## Syntax
 Let's take for example this context :
 ``` yaml
